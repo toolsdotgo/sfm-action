@@ -1,0 +1,13 @@
+name: 'sfm'
+description: 'gets the desired version of the sfm binary'
+inputs:
+  version:
+    description: 'desired sfm version'
+    required: false
+runs:
+  using: "composite"
+  steps:
+    - run: gh release -R toolsdotgo/sfm download "${{ inputs.version }}" -p sfm-linux-amd64-* -O /usr/local/bin/sfm
+      shell: bash
+    - run: chmod +x /usr/local/bin/sfm
+      shell: bash
