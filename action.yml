@@ -1,4 +1,4 @@
-name: 'sfm'
+name: 'toolsdotgo/sfm'
 description: 'gets the desired version of the sfm binary'
 inputs:
   version:
