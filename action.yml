@@ -7,7 +7,10 @@ inputs:
 runs:
   using: "composite"
   steps:
-    - run: wget "https://github.com/toolsdotgo/sfm/releases/download/${{ inputs.version }}/sfm-linux-amd64-${{ inputs.version }}" -O /usr/local/bin/sfm
-      shell: bash
-    - run: chmod +x /usr/local/bin/sfm
-      shell: bash
+    - shell: bash
+      run: |
+        vers="${{ inputs.version }}"
+        [[ $vers == "" ]] && vers=$(curl https://api.github.com/repos/toolsdotgo/sfm/releases/latest | jq -r .tag_name)
+        [[ $vers == "" ]] && { echo "couldn't get latest sfm version"; exit 1; }
+        curl -L "https://github.com/toolsdotgo/sfm/releases/download/${vers}/sfm-linux-amd64-${vers}" > /usr/local/bin/sfm
+        chmod +x /usr/local/bin/sfm
