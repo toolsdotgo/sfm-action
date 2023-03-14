@@ -7,7 +7,7 @@ inputs:
 runs:
   using: "composite"
   steps:
-    - run: gh release -R toolsdotgo/sfm download "${{ inputs.version }}" -p sfm-linux-amd64-* -O /usr/local/bin/sfm
+    - run: wget "https://github.com/toolsdotgo/sfm/releases/download/${{ inputs.version }}/sfm-linux-amd64-${{ inputs.version }}" -O /usr/local/bin/sfm
       shell: bash
     - run: chmod +x /usr/local/bin/sfm
       shell: bash
