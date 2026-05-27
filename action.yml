@@ -10,7 +10,9 @@ runs:
     - shell: bash
       run: |
         vers="${{ inputs.version }}"
-        [[ $vers == "" ]] && vers=$(curl https://api.github.com/repos/toolsdotgo/sfm/releases/latest | jq -r .tag_name)
+        [[ $vers == "" ]] && vers=$(gh api repos/toolsdotgo/sfm/releases/latest --jq .tag_name)
         [[ $vers == "" ]] && { echo "couldn't get latest sfm version"; exit 1; }
-        curl -L "https://github.com/toolsdotgo/sfm/releases/download/${vers}/sfm-linux-amd64-${vers}" > /usr/local/bin/sfm
+        gh release download "${vers}" --repo toolsdotgo/sfm --pattern "sfm-linux-amd64-${vers}" --output /usr/local/bin/sfm
         chmod +x /usr/local/bin/sfm
+      env:
+        GITHUB_TOKEN: ${{ github.token }}
